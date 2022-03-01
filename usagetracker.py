@@ -419,7 +419,6 @@ def check_blocking_tasks(prInfo):
 
 
 def trackTime(process):
-
     for programBlocked in listOfBlockApps:
         if process in programBlocked:
             print('Can block:',process)
@@ -477,7 +476,6 @@ def trackTime(process):
                     print("Not eligible for block:",process)
         else:
             t.sleep(2)
-    
 
     endTime = t.time()
     endDate = formatted_time()
@@ -532,9 +530,11 @@ def block_button():
 
 def quit_button():
     global stopThreads
+    print("GOODBYE")
     stopThreads = True
     appWindow.withdraw()
-    quit()
+    t.sleep(2)
+    os._exit(0)
 
 def search_by_input(event):
     value = event.widget.get()
@@ -553,14 +553,14 @@ def search_by_input(event):
 def buildMenu():
     global title,button1,button2,button3,button4,currentMenu
     currentMenu = 'mainMenu'
-    title = tk.Label(appWindow,text='AddictFree 2.0',bg='lightblue',font=('Arial',50))
+    title = tk.Label(appWindow,text='AddictFree 2.0',bg='#4FC3F7',font=('Roboto',50))
     title.grid(row=0,column=1)
 
 
-    button1 = tk.Button(appWindow,text='Track Application',fg='green',font=('Arial',20),command=track_button)
-    button2 = tk.Button(appWindow,text='Usage Stats',fg='orange',font=('Arial',20),command=usage_button)
-    button3 = tk.Button(appWindow,text='App Blocker',fg='orange',font=('Arial',20),command=block_button)
-    button4 = tk.Button(appWindow,text='Save and Quit',fg='red',font=('Arial',20),command=quit_button)
+    button1 = tk.Button(appWindow,text='Track Application',fg='#000000',bg='#8BC34A',font=('Roboto',20,'bold'),command=track_button)
+    button2 = tk.Button(appWindow,text='Usage Stats',fg='#000000',bg='#8BC34A',font=('Roboto',20,'bold'),command=usage_button)
+    button3 = tk.Button(appWindow,text='App Blocker',fg='#000000',bg='#8BC34A',font=('Roboto',20,'bold'),command=block_button)
+    button4 = tk.Button(appWindow,text='Save and Quit',fg='#000000',bg='#FF0000',font=('Roboto',20,'bold'),command=quit_button)
 
     button1.grid(row=1,column=1,pady=25)
     button2.grid(row=2,column=1,pady=25)
@@ -589,7 +589,7 @@ def removeGraph():
     if canvas == None:
         return
     canvas.get_tk_widget().destroy()
-    toolbarFrame.destroy()
+    #toolbarFrame.destroy()
     print("Destroyed?")
 
 def updateGraph(app):
@@ -602,12 +602,12 @@ def buildUsageMenu():
     global hourlyButton,monthlyButton,dailyButton,monthChoosingDrp
     currentMenu = 'usageMenu'
 
-    title = tk.Label(appWindow,text='AddictFree 2.0',bg='lightblue',font=('Arial',50))
+    title = tk.Label(appWindow,text='AddictFree 2.0',bg='#4FC3F7',font=('Roboto',50))
     title.grid(row=0,column=1)
 
     dateToday = formatted_time()
 
-    newFrame = Frame(appWindow)
+    newFrame = Frame(appWindow,bg='#212121')
     newFrame.grid(row=1,column=1,pady=20)
 
     graph_type = 'hourly'
@@ -654,8 +654,8 @@ def buildUsageMenu():
                 clearAll()
             except:
                 print('aga')
-            monthChoosingDrpDescrip = Label(newFrame,text='Choose Month: ')
-            monthChoosingDrp = ttk.Combobox(newFrame,value=months,textvariable=chosenMonth)
+            monthChoosingDrpDescrip = Label(newFrame,text='Choose Month: ',fg='#FFC107',bg='#212121',font=('Roboto','15'))
+            monthChoosingDrp = ttk.Combobox(newFrame,value=months,textvariable=chosenMonth,font=('Roboto','15'))
             monthChoosingDrpDescrip.grid(row=3,column=1)
             monthChoosingDrp.grid(row=3,column=2)
         elif type == 'hourly':
@@ -663,12 +663,12 @@ def buildUsageMenu():
                 clearAll()
             except:
                 print('aga')
-            dayChoosingDrpDescrip = Label(newFrame,text='Choose Day: ')
-            dayChoosingDrp = ttk.Combobox(newFrame,value=DaYs,textvariable=chosenDay)
+            dayChoosingDrpDescrip = Label(newFrame,text='Choose Day: ',fg='#FFC107',bg='#212121',font=('Roboto','15'))
+            dayChoosingDrp = ttk.Combobox(newFrame,value=DaYs,textvariable=chosenDay,font=('Roboto','15'))
             dayChoosingDrp.grid(row=3,column=1)
             dayChoosingDrpDescrip.grid(row=3,column=0)  
-            monthChoosingDrpDescrip = Label(newFrame,text='Choose Month: ')
-            monthChoosingDrp = ttk.Combobox(newFrame,value=months,textvariable=chosenMonth)
+            monthChoosingDrpDescrip = Label(newFrame,text='Choose Month: ',fg='#FFC107',bg='#212121',font=('Roboto','15'))
+            monthChoosingDrp = ttk.Combobox(newFrame,value=months,textvariable=chosenMonth,font=('Roboto','15'))
             monthChoosingDrpDescrip.grid(row=3,column=2)
             monthChoosingDrp.grid(row=3,column=3)
         else:
@@ -707,14 +707,14 @@ def buildUsageMenu():
         backButton()
         return
     
-    drpUCombo = ttk.Combobox(newFrame,value=listOfRecordedApps,textvariable=selectedAppU)
+    drpUCombo = ttk.Combobox(newFrame,value=listOfRecordedApps,textvariable=selectedAppU,font=('Roboto',25))
 
     drpUCombo.current(0)
     #drpUCombo.bind('<KeyRelease>', search_by_input)
     drpUCombo.grid(row=1,column=1,pady=25)
 
-    hourlyButton = Button(newFrame,text='Hourly',fg='blue',command=lambda: set_graph_type('hourly'))
-    dailyButton = Button(newFrame,text='Daily',fg='blue',command=lambda: set_graph_type('daily'))
+    hourlyButton = Button(newFrame,text='Hourly',bg='#FFC107',font=('Roboto','15','bold'),command=lambda: set_graph_type('hourly'))
+    dailyButton = Button(newFrame,text='Daily',bg='#FFC107',font=('Roboto','15','bold'),command=lambda: set_graph_type('daily'))
     #monthlyButton = Button(newFrame,text='Monthly',fg='blue',command=lambda: set_graph_type('monthly'))
 
     hourlyButton.grid(row=2,column=0)
@@ -820,9 +820,9 @@ def showStatsGraph(app,type,today):
                 hourlyList[j] = hourlyList[j] / 3600
         else:
             timeUnit = '(s)'
-        fig = plt.figure(figsize = (8, 4))
+        fig = plt.figure(figsize = (8, 3.8))
         plt.xticks(hours)
-        plt.bar(hours, hourlyList, color ='blue',width = 0.4)
+        plt.bar(hours, hourlyList, color ='blue')
         if(today):
             plt.xlabel(formattedDate)
             plt.title("Usage Statistics(TODAY)")
@@ -853,12 +853,12 @@ def showStatsGraph(app,type,today):
                 dailyList[j] = dailyList[j] / 3600
         else:
             timeUnit = '(s)'
-        fig = plt.figure(figsize = (8, 4))
+        fig = plt.figure(figsize = (8, 3.8))
         print('graph data')
         print(len(days))
         print(len(dailyList))
         plt.xticks(days)
-        plt.bar(days, dailyList, color ='blue',width = 0.4)
+        plt.bar(days, dailyList, color ='blue')
         plt.xlabel("Day")
         plt.ylabel(f"Time spent {timeUnit}")
         plt.title("Usage Statistics")
@@ -869,10 +869,10 @@ def showStatsGraph(app,type,today):
     canvas = FigureCanvasTkAgg(fig,master = appWindow)  
     canvas.draw()
     canvas.get_tk_widget().grid(row=7,column=1,pady=10)
-    toolbarFrame = Frame(appWindow)
-    toolbarFrame.grid(row=8,column=1,pady=0)
-    toolbar = NavigationToolbar2Tk(canvas,toolbarFrame)
-    toolbar.update()
+    #toolbarFrame = Frame(appWindow)
+    #toolbarFrame.grid(row=8,column=1,pady=0)
+    #toolbar = NavigationToolbar2Tk(canvas,toolbarFrame)
+    #toolbar.update()
     canvas.get_tk_widget().grid(row=7,column=1,pady=10)
     canvas.get_tk_widget().update()
 
@@ -976,7 +976,7 @@ def buildTrackingMenu():
     global programStatusVar,currentMenu,allAppsEXES,allAppsNames,allAppsLocations,selectedIndex
     global drpCombo,customEXEButton,DappName,DappLoc,forTracking,programStatus,graphUpdate,newFrame
     currentMenu = 'trackingMenu'
-    title = tk.Label(appWindow,text='AddictFree 2.0',bg='lightblue',font=('Arial',50))
+    title = tk.Label(appWindow,text='AddictFree 2.0',bg='#4FC3F7',font=('Roboto',50))
     title.grid(row=0,column=1)
 
     dirOfApps = "C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs"
@@ -1125,32 +1125,32 @@ def buildTrackingMenu():
     #dropdown = tk.OptionMenu(mainFrame, selectedApp, *allAppsNames)
     #dropdown.grid(row=1,column=1,pady=25)
 
-    newFrame = Frame(appWindow)
+    newFrame = Frame(appWindow,bg='#212121')
     newFrame.grid(row=1,column=1,pady=20)
 
-    drpCombo = ttk.Combobox(newFrame,value=allAppsNames,textvariable=selectedApp)
+    drpCombo = ttk.Combobox(newFrame,value=allAppsNames,textvariable=selectedApp,font=('Roboto','15'))
     drpCombo.current(0)
     drpCombo.bind('k',showDown)
     drpCombo.bind('<KeyRelease>', search_by_input)
     drpCombo.grid(row=1,column=1,pady=25)
 
-    customEXEButton = Button(newFrame,text='Select App Manually',command=selectFile)
+    customEXEButton = Button(newFrame,text='Select App Manually',font=('Roboto','10','bold'),bg='#FFC107',command=selectFile)
     customEXEButton.grid(row=1,column=2)
 
-    DappName = Label(newFrame,textvariable=selectedApp,fg='green')
+    DappName = Label(newFrame,textvariable=selectedApp,fg='#76FF03',font=('Roboto','12','bold'),bg = '#212121')
     DappName.grid(row=2,column=1)
 
-    DappLoc = Label(newFrame,textvariable=selectedLocation,fg='green')
+    DappLoc = Label(newFrame,textvariable=selectedLocation,fg='#76FF03',font=('Roboto','12','bold'),bg = '#212121')
     DappLoc.grid(row=3,column=1)
 
-    forTracking = Checkbutton(newFrame,text="Enable tracking",command=track_state_changed,variable=trackState)
+    forTracking = Checkbutton(newFrame,text="Enable tracking",command=track_state_changed,variable=trackState,bg = '#212121',fg='#FFC107',font=('Roboto',15))
     forTracking.grid(row=4,column=1)
 
 
-    programStatus = Label(newFrame,textvariable=programStatusVar,fg='blue')
+    programStatus = Label(newFrame,textvariable=programStatusVar,fg='#00B0FF',font=('Roboto','15','bold'),bg = '#212121')
     programStatus.grid(row=5,column=1)
 
-    graphUpdate = Button(newFrame,text='Update Graph',command=lambda: updateGraph(allAppsEXES[selectedIndex]))
+    graphUpdate = Button(newFrame,text='Update Graph',command=lambda: updateGraph(allAppsEXES[selectedIndex]),font=('Roboto','10','bold'),bg = '#FFC107')
     graphUpdate.grid(row=6,column=1)
 
 
@@ -1196,10 +1196,10 @@ def buildAppBlockingMenu():
     global blockUserInputAlsoLabel,blockUserInputAlso
     currentMenu = 'blockingMenu'
 
-    title = tk.Label(appWindow,text='AddictFree 2.0',bg='lightblue',font=('Arial',50))
+    title = tk.Label(appWindow,text='AddictFree 2.0',bg='#4FC3F7',font=('Roboto',50))
     title.grid(row=0,column=1)
 
-    newFrame = Frame(appWindow)
+    newFrame = Frame(appWindow,bg='#212121')
     newFrame.grid(row=1,column=1,pady=20)
 
     def update_what_selected():
@@ -1307,25 +1307,25 @@ def buildAppBlockingMenu():
 
 
     
-    drpBCombo = ttk.Combobox(newFrame,value=listOfRecordedApps,textvariable=selectedAppB)
+    drpBCombo = ttk.Combobox(newFrame,value=listOfRecordedApps,textvariable=selectedAppB,font=('Roboto','25'))
 
     #drpBCombo.current(0)
     #drpUCombo.bind('<KeyRelease>', search_by_input)
     drpBCombo.grid(row=1,column=1,pady=25)
 
-    timeLimitLabel = Label(newFrame,text='Time Limit(in hr): ',font=('Arial',20))
-    timeLimit = Text(newFrame,height=1,width=10,font=('Arial',20))
+    timeLimitLabel = Label(newFrame,text='Time Limit(in hr): ',font=('Roboto',20),bg='#212121',fg='#FFC107')
+    timeLimit = Text(newFrame,height=1,width=10,font=('Roboto',20))
 
-    forceQuitLabel = Label(newFrame,text='Force Quit(to terminate program automatically): ',font=('Arial',20))
-    forceQuit = Checkbutton(newFrame,variable=fQBool)
+    forceQuitLabel = Label(newFrame,text='Force Quit(to terminate program automatically): ',font=('Roboto',20),bg='#212121',fg='#FFC107')
+    forceQuit = Checkbutton(newFrame,variable=fQBool,bg='#212121')
 
-    notifyPriorLabel = Label(newFrame,text='Notify prior(in mins): ',font=('Arial',20))
-    notifyPrior = Text(newFrame,height=1,width=10,font=('Arial',20))
+    notifyPriorLabel = Label(newFrame,text='Notify prior(in mins): ',font=('Roboto',20),bg='#212121',fg='#FFC107')
+    notifyPrior = Text(newFrame,height=1,width=10,font=('Roboto',20))
 
-    blockUserInputAlsoLabel = Label(newFrame,text='Also Block User Input for(in mins): ',font=('Arial',20))
-    blockUserInputAlso = Text(newFrame,height=1,width=10,font=('Arial',20))
+    blockUserInputAlsoLabel = Label(newFrame,text='Also Block User Input for(in mins): ',font=('Roboto',20),bg='#212121',fg='#FFC107')
+    blockUserInputAlso = Text(newFrame,height=1,width=10,font=('Roboto',20))
 
-    applyButton = Button(newFrame,text='Apply',fg='green',font=('Arial',20),command=Apply_Block_Changes)
+    applyButton = Button(newFrame,text='Apply',bg='#8BC34A',font=('Roboto',20,'bold'),command=Apply_Block_Changes)
 
     timeLimitLabel.grid(row=2,column=0,pady=25)
     timeLimit.grid(row=2,column=1)
@@ -1365,10 +1365,11 @@ appWindow = tk.Tk(className='AddictFree 2.0')
 appWindow.geometry('1280x720')
 #appWindow.grid_columnconfigure(1,minsize=500)
 appWindow.grid_anchor('n')
-appWindow.configure(bg='lightgreen')
+appWindow.configure(bg='#212121')
+appWindow.protocol("WM_DELETE_WINDOW", quit_button)
 
 
-backButtonGUI = Button(appWindow,text='BACK',command=backButton)
+backButtonGUI = Button(appWindow,text='BACK',bg='#FFC107',font=('Roboto','15','bold'),command=backButton)
 backButtonGUI.grid(row=0,column=0)
 
 buildMenu()
